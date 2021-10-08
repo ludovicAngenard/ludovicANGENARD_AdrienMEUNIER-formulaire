@@ -167,8 +167,6 @@ export default {
       }
     },
     reset () {
-      this.$store.dispatch(ACTIONS.DELETE_USER, 'adrienmeunier85@gmail.com')
-
       this.$refs.form.reset()
     },
   },
