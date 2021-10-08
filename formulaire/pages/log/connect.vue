@@ -74,10 +74,8 @@
     </v-form>
 
     <div>
-      {{ $store.state.users.users }}
       <ul>
         <li v-for="(user, i) in $store.state.users.users" :key="i">
-
           Email : {{ user.email }}
           Nom : {{ user.lastName }}
           Prénom : {{ user.firstName }}
@@ -111,6 +109,8 @@ export default {
       ],
     }
   },
+  mounted() {
+  },
   methods: {
 
     setCookie (name, firstName, email) {
@@ -128,15 +128,18 @@ export default {
     },
 
     validate () {
+      let noAuth = true
       if (this.$refs.form.validate()) {
         this.$store.state.users.users.forEach(response => {
           if (this.$data.email === response.email && this.$data.password === response.password) {
             this.setCookie(response.lastName, response.firstName, response.email)
             this.$router.push('/')
-          }else {
-            this.$data.message = 'Email ou mot de passe incorrect'
+            noAuth = false
           }
         })
+      }
+      if (noAuth)  {
+        this.$data.message = 'Email ou mot de passe incorrect'
       }
     },
     reset () {

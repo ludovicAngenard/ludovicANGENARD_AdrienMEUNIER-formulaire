@@ -2,7 +2,6 @@ export default function ({app , store, redirect, route }) {
 
   const routes = ['log-connect', 'log-register']
 
-  console.log(route)
   if (app.$cookies.get('email') !== undefined && routes.includes(route.name)) {
     return redirect('/dashboard')
 
