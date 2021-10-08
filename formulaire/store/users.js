@@ -1,6 +1,6 @@
 export const ACTIONS = {
   ADD_USER_METHOD: 'users/addUser',
-  INIT_USER: 'users/initUser',
+  DELETE_USER: 'users/deleteUser'
 }
 
 export const state = () => ({
@@ -9,24 +9,29 @@ export const state = () => ({
 
 export const mutations = {
   ADD_USER: (state, data) => state.users.push(data),
-  INIT_USER: (state) => state.users = []
+  DELETE_USER: (state, email) => {
+    console.log(email)
+    let indexs = 0
+    state.users.findIndex((element, index) => {
+      if (element.email === email) {
+        indexs = index
+      }
+    })
+    state.users.splice(indexs,1)
+    if (state.users.length == 0){
+      localStorage.removeItem('users')
+    } else {
+      localStorage.setItem('users', JSON.stringify(state.users))
+    }
+  }
 }
 
 export const actions = {
   addUser({ commit }, data) {
     commit('ADD_USER', data)
   },
-  remove({commit}) {
-    var current_user = {  'lastName' : this.$cookies.get('lastName'), 'firstName' : this.$cookies.get('firstName'), 'email' : this.$cookies.get('email'), 'password' : this.$cookies.get('password')}
-    console.log(state.users)
-    console.log('ça passe ')
-   state.users.splice( state.users.indexOf(current_user), 1)
-
-    commit('REMOVE_ACCOUNT', current_user)
-
-    console.log(commit)
-},
-  initUser({ commit }, data) {
-    commit('INIT_USER',)
+  deleteUser({ commit }, data) {
+    commit('DELETE_USER',data)
+    this.$cookies.removeAll()
   },
 }

@@ -1,3 +1,4 @@
+
 <template>
     <div>
       <v-card>
@@ -21,13 +22,15 @@
 </template>
 
 <script>
+import {ACTIONS} from "../store/users";
 export default {
     methods:{
       unsubscribe() {
-        this.$store.dispatch('users/remove')
+        this.$store.dispatch(ACTIONS.DELETE_USER, this.$cookies.get('email'))
       },
       disconnect(){
-        this.$store.dispatch('dashboard/disconnect')
+        this.$cookies.removeAll()
+        this.$router.push('/log/connect')
       }
     },
 }
