@@ -1,12 +1,6 @@
 <template>
   <div>
-    <v-alert v-if="message.length > 0"
-      dense
-      outlined
-      type="error"
-    >
-      {{ message }}
-    </v-alert>
+
     <v-form
       ref="form"
       v-model="valid"
@@ -74,12 +68,11 @@
     </v-form>
 
     <div>
-      {{ $store.state.users.users }}
       <ul>
         <li v-for="(user, i) in $store.state.users.users" :key="i">
-          {{ user.name }}
-          {{ user.firstName }}
-          {{ user.email }}
+          Email : {{ user.email }}
+          Nom : {{ user.lastName }}
+          Prénom : {{ user.firstName }}
         </li>
       </ul>
     </div>
@@ -89,6 +82,9 @@
 </template>
 
 <script>
+// import {ACTIONS} from "../../store/users";
+import {ACTIONS_MESSAGES} from "../../store/messages";
+
 export default {
   name: 'connect',
   data () {
@@ -110,6 +106,8 @@ export default {
       ],
     }
   },
+  mounted() {
+  },
   methods: {
 
     setCookie (name, firstName, email) {
@@ -123,20 +121,24 @@ export default {
         {'name' : 'firstName', 'value'  : firstName, opts: options},
         {'name' : 'email', 'value'  :email, opts: options}
       ]
-
       this.$cookies.setAll(cookiesList)
     },
 
     validate () {
+      let noAuth = true
       if (this.$refs.form.validate()) {
         this.$store.state.users.users.forEach(response => {
           if (this.$data.email === response.email && this.$data.password === response.password) {
-            this.setCookie(response.name, response.firstName, response.email)
+            this.setCookie(response.lastName, response.firstName, response.email)
             this.$router.push('/')
-          }else {
-            this.$data.message = 'Email ou mot de passe incorrect'
+            noAuth = false
           }
         })
+      }
+      if (noAuth)  {
+        this.$store.dispatch(ACTIONS_MESSAGES.ADD_MESSAGE, 'Email ou mot de passe incorrect')
+
+        // this.$data.message = 'Email ou mot de passe incorrect'
       }
     },
     reset () {

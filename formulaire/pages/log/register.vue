@@ -92,6 +92,7 @@
 
 <script>
 import {ACTIONS} from "../../store/users";
+import {ACTIONS_MESSAGES} from "../../store/messages";
 
 export default {
   name: 'register',
@@ -99,7 +100,7 @@ export default {
 
     loader : null,
     loading: false,
-
+    users: [],
     checkbox: false,
     valid: true,
     name: '',
@@ -121,22 +122,45 @@ export default {
       v => !!v || 'L\'email est obligatoire',
       v => /.+@.+\..+/.test(v) || 'L\'email est dans un format incorrect',
     ],
-  }),
+  }),mounted() {
 
+
+  },
   methods: {
     addUsers() {
-      this.$store.dispatch(ACTIONS.ADD_USER_METHOD, {
-        name: this.$data.name,
-        firstName: this.$data.firstName,
-        email: this.$data.email,
-        password: this.$data.password,
+      let emailExist = false
+      this.$store.state.users.users.forEach(response => {
+        if (response.email === this.$data.email) {
+          emailExist = true
+        }
       })
+
+      if (!emailExist) {
+        this.$store.dispatch(ACTIONS.ADD_USER_METHOD, {
+          lastName: this.$data.name,
+          firstName: this.$data.firstName,
+          email: this.$data.email,
+          password: this.$data.password,
+        })
+        this.$data.users.push({
+          lastName: this.$data.name,
+          firstName: this.$data.firstName,
+          email: this.$data.email,
+          password: this.$data.password,
+        })
+
+        localStorage.setItem('users', JSON.stringify(this.$data.users))
+      }else {
+        this.$store.dispatch(ACTIONS_MESSAGES.ADD_MESSAGE, 'Email incorrect')
+      }
     },
 
-    validate () {
+    async validate () {
       if (this.$refs.form.validate()) {
-        this.addUsers()
-        this.$router.push('/log/connect')
+        await this.addUsers()
+        if (this.$store.state.messages.message.length === 0) {
+          await this.$router.push('/log/connect')
+        }
       }
     },
     reset () {
