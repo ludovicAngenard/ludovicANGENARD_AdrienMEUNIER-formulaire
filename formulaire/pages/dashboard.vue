@@ -27,6 +27,8 @@ export default {
     methods:{
       unsubscribe() {
         this.$store.dispatch(ACTIONS.DELETE_USER, this.$cookies.get('email'))
+        this.$cookies.removeAll()
+        this.$router.push('/log/connect')
       },
       disconnect(){
         this.$cookies.removeAll()
