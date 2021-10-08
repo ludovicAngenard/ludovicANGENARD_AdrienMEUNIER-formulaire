@@ -77,9 +77,10 @@
       {{ $store.state.users.users }}
       <ul>
         <li v-for="(user, i) in $store.state.users.users" :key="i">
-          {{ user.name }}
-          {{ user.firstName }}
-          {{ user.email }}
+
+          Email : {{ user.email }}
+          Nom : {{ user.lastName }}
+          Prénom : {{ user.firstName }}
         </li>
       </ul>
     </div>
@@ -119,11 +120,10 @@ export default {
       }
 
       const cookiesList = [
-        {'name' : 'name', 'value' : name, opts: options},
+        {'name' : 'lastName', 'value' : name, opts: options},
         {'name' : 'firstName', 'value'  : firstName, opts: options},
         {'name' : 'email', 'value'  :email, opts: options}
       ]
-
       this.$cookies.setAll(cookiesList)
     },
 
@@ -131,7 +131,7 @@ export default {
       if (this.$refs.form.validate()) {
         this.$store.state.users.users.forEach(response => {
           if (this.$data.email === response.email && this.$data.password === response.password) {
-            this.setCookie(response.name, response.firstName, response.email)
+            this.setCookie(response.lastName, response.firstName, response.email)
             this.$router.push('/')
           }else {
             this.$data.message = 'Email ou mot de passe incorrect'

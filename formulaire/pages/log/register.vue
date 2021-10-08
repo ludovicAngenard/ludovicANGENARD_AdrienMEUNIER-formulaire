@@ -126,7 +126,7 @@ export default {
   methods: {
     addUsers() {
       this.$store.dispatch(ACTIONS.ADD_USER_METHOD, {
-        name: this.$data.name,
+        lastName: this.$data.name,
         firstName: this.$data.firstName,
         email: this.$data.email,
         password: this.$data.password,
