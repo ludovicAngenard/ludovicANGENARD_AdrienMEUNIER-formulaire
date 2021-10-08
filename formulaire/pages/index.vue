@@ -8,5 +8,17 @@
         {{ user.email }}
       </li>
     </ul>
+    <v-btn @click="go_to_board">
+    </v-btn>
   </div>
 </template>
+
+<script>
+export default {
+    methods:{
+      go_to_board(){
+        this.$router.push('/dashboard')
+      }
+    },
+}
+</script>

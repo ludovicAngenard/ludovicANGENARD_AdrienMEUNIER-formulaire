@@ -1,7 +1,4 @@
 export const state = () => ({
-    accounts:[
-        {first_name: 'aa', last_name:'aa', email:'aaa', password: 'aaaaa'}
-    ],
     headers:[
         {
             text:'Prénom',
@@ -28,23 +25,21 @@ export const state = () => ({
 })
 
 export const mutations = {
-    REMOVE_ACCOUNT: (state, data) => state.accounts.splice(state.accounts.indexOf(data), 1),
-    SHOW_BTN: (state) => {
-        state.accounts.forEach(element => {
-            if (element.email == this.$coockies.get('email')){
-                element.button = <remove-account-btn></remove-account-btn>
-            }
-        });
+    REMOVE_ACCOUNT: (state, current_user) => {
+        console.log('ça passe là ?')
+        console.log( current_user)
+
     },
+    DISCONNECT: (state) => {
+
+        var a=1
+    }
 }
 
 export const actions = {
-    remove({commit}, account) {
-    commit('REMOVE_ACCOUNT')
-        console.log(commit, account)
-    },
-    show_btn({commit}){
-        commit('SHOW_BTN')
+    
+    disconnect({commit}) {
+        commit('DISCONNECT')
         console.log(commit)
-    }
+    },
 }

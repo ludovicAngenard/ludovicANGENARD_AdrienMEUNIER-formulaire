@@ -119,7 +119,7 @@ export default {
       }
 
       const cookiesList = [
-        {'name' : 'name', 'value' : name, opts: options},
+        {'name' : 'lastName', 'value' : name, opts: options},
         {'name' : 'firstName', 'value'  : firstName, opts: options},
         {'name' : 'email', 'value'  :email, opts: options}
       ]
