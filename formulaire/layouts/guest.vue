@@ -10,10 +10,10 @@
 
 <script>
 export default {
-  data () {
-    return {
-
-    }
-  }
+  name: "guest"
 }
 </script>
+
+<style scoped>
+
+</style>
