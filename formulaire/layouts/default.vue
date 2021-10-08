@@ -2,6 +2,13 @@
   <v-app>
     <v-main>
       <v-container>
+        <v-alert v-if="$store.state.messages.message.length > 0"
+                 dense
+                 outlined
+                 type="error"
+        >
+          {{ $store.state.messages.message }}
+        </v-alert>
         <Nuxt />
       </v-container>
     </v-main>
@@ -18,7 +25,8 @@ export default {
     }
   },
   mounted() {
-    if (localStorage.users !== undefined) {
+
+      if (localStorage.users !== undefined) {
       this.$data.users = JSON.parse(localStorage.users)
       this.$store.dispatch(ACTIONS.INIT_USER)
       this.$data.users.forEach(response => {

@@ -92,6 +92,7 @@
 
 <script>
 import {ACTIONS} from "../../store/users";
+import {ACTIONS_MESSAGES} from "../../store/messages";
 
 export default {
   name: 'register',
@@ -127,26 +128,39 @@ export default {
   },
   methods: {
     addUsers() {
-      this.$store.dispatch(ACTIONS.ADD_USER_METHOD, {
-        lastName: this.$data.name,
-        firstName: this.$data.firstName,
-        email: this.$data.email,
-        password: this.$data.password,
-      })
-      this.$data.users.push({
-        lastName: this.$data.name,
-        firstName: this.$data.firstName,
-        email: this.$data.email,
-        password: this.$data.password,
+      let emailExist = false
+      this.$store.state.users.users.forEach(response => {
+        if (response.email === this.$data.email) {
+          emailExist = true
+        }
       })
 
-      localStorage.setItem('users', JSON.stringify(this.$data.users))
+      if (!emailExist) {
+        this.$store.dispatch(ACTIONS.ADD_USER_METHOD, {
+          lastName: this.$data.name,
+          firstName: this.$data.firstName,
+          email: this.$data.email,
+          password: this.$data.password,
+        })
+        this.$data.users.push({
+          lastName: this.$data.name,
+          firstName: this.$data.firstName,
+          email: this.$data.email,
+          password: this.$data.password,
+        })
+
+        localStorage.setItem('users', JSON.stringify(this.$data.users))
+      }else {
+        this.$store.dispatch(ACTIONS_MESSAGES.ADD_MESSAGE, 'Email incorrect')
+      }
     },
 
-    validate () {
+    async validate () {
       if (this.$refs.form.validate()) {
-        this.addUsers()
-        this.$router.push('/log/connect')
+        await this.addUsers()
+        if (this.$store.state.messages.message.length === 0) {
+          await this.$router.push('/log/connect')
+        }
       }
     },
     reset () {

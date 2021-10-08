@@ -1,12 +1,6 @@
 <template>
   <div>
-    <v-alert v-if="message.length > 0"
-      dense
-      outlined
-      type="error"
-    >
-      {{ message }}
-    </v-alert>
+
     <v-form
       ref="form"
       v-model="valid"
@@ -88,6 +82,9 @@
 </template>
 
 <script>
+// import {ACTIONS} from "../../store/users";
+import {ACTIONS_MESSAGES} from "../../store/messages";
+
 export default {
   name: 'connect',
   data () {
@@ -139,7 +136,9 @@ export default {
         })
       }
       if (noAuth)  {
-        this.$data.message = 'Email ou mot de passe incorrect'
+        this.$store.dispatch(ACTIONS_MESSAGES.ADD_MESSAGE, 'Email ou mot de passe incorrect')
+
+        // this.$data.message = 'Email ou mot de passe incorrect'
       }
     },
     reset () {
