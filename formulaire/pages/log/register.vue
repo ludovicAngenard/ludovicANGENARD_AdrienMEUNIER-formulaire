@@ -124,10 +124,19 @@ export default {
     ],
   }),mounted() {
 
+    // this.$data.users = this.$store.state.users.users
 
   },
   methods: {
     addUsers() {
+      this.$data.users.forEach(response => {
+        this.$store.dispatch(ACTIONS.ADD_USER_METHOD, {
+          lastName: response.name,
+          firstName: response.firstName,
+          email: response.email,
+          password: response.password,
+        })
+      })
       let emailExist = false
       this.$store.state.users.users.forEach(response => {
         if (response.email === this.$data.email) {
@@ -142,14 +151,8 @@ export default {
           email: this.$data.email,
           password: this.$data.password,
         })
-        this.$data.users.push({
-          lastName: this.$data.name,
-          firstName: this.$data.firstName,
-          email: this.$data.email,
-          password: this.$data.password,
-        })
 
-        localStorage.setItem('users', JSON.stringify(this.$data.users))
+        localStorage.setItem('users', JSON.stringify(this.$store.state.users.users))
       }else {
         this.$store.dispatch(ACTIONS_MESSAGES.ADD_MESSAGE, 'Email incorrect')
       }

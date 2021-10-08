@@ -1,6 +1,7 @@
 export const ACTIONS = {
   ADD_USER_METHOD: 'users/addUser',
-  DELETE_USER: 'users/deleteUser'
+  INIT_USER: 'users/initUser',
+  DELETE_USER: 'users/deleteUser',
 }
 
 export const state = () => ({
@@ -18,11 +19,7 @@ export const mutations = {
       }
     })
     state.users.splice(indexs,1)
-    if (state.users.length == 0){
-      localStorage.removeItem('users')
-    } else {
-      localStorage.setItem('users', JSON.stringify(state.users))
-    }
+    localStorage.setItem('users', JSON.stringify(state.users))
   }
 }
 
@@ -34,4 +31,8 @@ export const actions = {
     commit('DELETE_USER',data)
     this.$cookies.removeAll()
   },
+  deleteUser({ commit }, data) {
+    commit('DELETE_USER',data)
+  },
+
 }
